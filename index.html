@@ -4,7 +4,29 @@
     <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>তদন্ত প্রতিবেদন - রাণী শিমুল ইউনিয়ন ভূমি অফিস</title>
-        <style>
+        <!-- বাংলা ফন্টগুলোর জন্য অনলাইন লিংক (Google Fonts) -->
+        <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;600&family=Hind+Siliguri:wght@400;600&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+          <style>
+        /* ফন্ট স্টাইল ক্লাসসমূহ */
+        body.font-solaiman {
+            font-family: 'SolaimanLipi', Arial, sans-serif !important;
+        }
+        body.font-nikosh {
+            font-family: 'Nikosh', 'Hind Siliguri', 'Anek Bangla', sans-serif !important;
+        }
+        body.font-kalpurush {
+            font-family: 'Kalpurush', 'Tiro Bangla', serif !important;
+        }
+        body.font-siyam {
+            font-family: 'Siyam Rupali', 'Hind Siliguri', sans-serif !important;
+        }
+        body.font-anek {
+            font-family: 'Anek Bangla', sans-serif !important;
+        }
+        body.font-SolaimanLipiClassic {
+            font-family: 'SolaimanLipi', 'Tiro Bangla', sans-serif !important;
+        }
+
         body {
             font-family: 'SolaimanLipi', Arial, sans-serif;
             background-color: #555;
@@ -65,13 +87,16 @@
             border-collapse: collapse;
             font-size: 12px;
             margin-bottom: 15px;
+            table-layout: fixed;
         }
         table, th, td {
             border: 1px solid #000;
         }
         th, td {
-            padding: 5px 8px;
+            padding: 6px 8px;
             vertical-align: middle;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         th {
             text-align: center;
@@ -79,17 +104,26 @@
         }
         .col-sl { width: 8%; text-align: center; }
         .col-subj { width: 32%; }
-        .col-info { width: 60%; }
+        .col-info { width: 60%; padding: 0 !important; }
         
         .sub-table {
             width: 100%;
             border-collapse: collapse;
             margin: 0;
+            table-layout: fixed;
         }
-        .sub-table td {
+        .sub-table td, .sub-table th {
             border: none;
             border-bottom: 1px solid #000;
-            padding: 4px;
+            border-right: 1px solid #000;
+            padding: 6px 4px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            font-size: 11px;
+            text-align: center;
+        }
+        .sub-table tr td:last-child, .sub-table tr th:last-child {
+            border-right: none;
         }
         .sub-table tr:last-child td {
             border-bottom: none;
@@ -120,18 +154,21 @@
             line-height: 1.5;
         }
         .controls {
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
         .controls button {
             background: #0b6b3a;
             color: white;
             border: none;
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 10px 15px;
+            font-size: 15px;
             cursor: pointer;
             border-radius: 5px;
-            margin: 0 5px;
         }
         .controls button.save-btn {
             background: #007bff;
@@ -140,38 +177,62 @@
         body.edit-mode .controls button.save-btn {
             display: inline-block;
         }
+        .controls button.reset-btn {
+            background: #dc3545;
+        }
+        .font-selector-box select {
+            background: #fff;
+            color: #333;
+            border: none;
+            padding: 10px 12px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            outline: none;
+        }
         .action-cell {
             display: none;
             text-align: center;
+            width: 10%;
         }
         body.edit-mode .action-cell {
             display: table-cell;
         }
-        .add-row-btn {
+        
+        .tapsil-action-col {
             display: none;
-            margin: 5px 0;
+            width: 35px;
+            text-align: center;
+        }
+        body.edit-mode .tapsil-action-col {
+            display: table-cell;
+        }
+
+        .add-row-btn, .add-tapsil-btn {
+            display: none;
+            margin: 5px;
             background: #28a745;
             color: white;
             border: none;
-            padding: 4px 10px;
+            padding: 6px 12px;
             cursor: pointer;
             border-radius: 3px;
-            font-size: 11px;
+            font-size: 12px;
         }
-        body.edit-mode .add-row-btn {
+        body.edit-mode .add-row-btn, body.edit-mode .add-tapsil-btn {
             display: inline-block;
         }
         .del-btn {
             background: #dc3545;
             color: white;
             border: none;
-            padding: 1px 4px;
+            padding: 3px 6px;
             cursor: pointer;
             border-radius: 3px;
-            font-size: 9px;
+            font-size: 10px;
         }
 
-        /* পাসওয়ার্ড বক্সের স্টাইল */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -209,7 +270,7 @@
         .btn-cancel { background: #dc3545; color: white; }
 
         @media print {
-            .controls, .action-cell, .add-row-btn, .del-btn, .modal-overlay {
+            .controls, .action-cell, .tapsil-action-col, .add-row-btn, .add-tapsil-btn, .del-btn, .modal-overlay {
                 display: none !important;
             }
             body {
@@ -223,261 +284,290 @@
             }
         }
     </style>
-      </head>
-      <body>
-        <div class="controls">
-          <button onclick="openPasswordModal()">🔐 এডিট মোড চালু করুন</button>
-          <button class="save-btn" onclick="saveChanges()">💾 সেভ করুন</button>
-          <button onclick="window.print()">🖨️ প্রিন্ট / ডাউনলোড</button>
-        </div>
-        <!-- পাসওয়ার্ড ইনপুট পপআপ (লুকানো মোডে থাকবে) -->
-        <div class="modal-overlay" id="passwordModal">
-          <div class="modal-box">
-            <h4>অ্যাডমিন পাসওয়ার্ড দিন</h4>
-            <input type="password" id="adminPasswordInput" placeholder="পাসওয়ার্ড দিন">
-              <br>
-                <button class="btn-submit" onclick="verifyPassword()">প্রবেশ করুন</button>
-                <button class="btn-cancel" onclick="closePasswordModal()">বাতিল</button>
-              </div>
+        </head>
+        <body class="font-solaiman">
+          <div class="controls">
+            <button onclick="openPasswordModal()">🔐 এডিট মোড চালু করুন</button>
+            <button class="save-btn" onclick="saveChanges()">💾 সেভ করুন</button>
+            <div class="font-selector-box">
+              <select id="fontSelector" onchange="changeGlobalFont(this.value)">
+                <option value="font-solaiman">সলাইমানলিপি (SolaimanLipi)</option>
+                <option value="font-nikosh">নিকোষ (Nikosh)</option>
+                <option value="font-kalpurush">কালপুরুষ (Kalpurush)</option>
+                <option value="font-siyam">সিয়াম রূপালী (Siyam Rupali)</option>
+                <option value="font-anek">অনেক বাংলা (Anek Bangla)</option>
+                <option value="font-SolaimanLipiClassic">ক্লাসিক বাংলা (Tiro Bangla)</option>
+              </select>
             </div>
-            <div class="container" id="report-container">
-              <div>
-                <div class="top-header">
-                  <p>
-                    <span contenteditable="false">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span>
-                  </p>
-                  <p>
-                    <span contenteditable="false">রাণী শিমুল ইউনিয়ন ভূমি অফিস</span>
-                  </p>
-                  <p>
-                    <span contenteditable="false">নকলা, শেরপুর।</span>
-                  </p>
-                </div>
-                <div class="memo-date">
-                  <div>স্মারক নং- <span contenteditable="false">০৩</span>
-                </div>
-                <div>তারিখঃ <span contenteditable="false">২৮/০১/২০২৬ খ্রি.</span>
-              </div>
-            </div>
-            <div class="subject-line">
-              বিষয়ঃ <span contenteditable="false">ফৌজদারী কার্যবিধির ১৪৪ ধারা মোতাবেক তদন্ত প্রতিবেদন।</span>
-            </div>
-            <div class="ref-line">
-              সূত্রঃ <span contenteditable="false">মহোদয় কার্যালয়ের বিগত ২২/০১/২০২৬ খ্রি. তারিখে ৩১.৪৫.৮৯৬৭.০০০.৫০.০০০.২৫-৪৯ নং স্মারক।</span>
-            </div>
-            <div class="intro-text" contenteditable="false">
-              ਉਪযুক্ত বিষয় ও সূত্রের আলোকে মহোদয়ের সদয় অবগতির জন্য জানানো যাচ্ছে যে, চাহিত মোদ্দমার তদন্ত প্রতিবেদন এক নজরে ছকে উপস্থাপিত করা হলোঃ
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th class="col-sl">क्र. নং</th>
-                  <th class="col-subj">বিষয়বস্তু</th>
-                  <th class="col-info">তথ্য উপাত্ত</th>
-                  <th class="action-cell">অ্যাকশন</th>
-                </tr>
-              </thead>
-              <tbody id="report-tbody">
-                <tr>
-                  <td class="col-sl" contenteditable="false">০১</td>
-                  <td class="col-subj" contenteditable="false">মামলা নং-</td>
-                  <td class="col-info" contenteditable="false">১০/২৬ পিটিশন মোকদ্দমা</td>
-                  <td class="action-cell">
-                    <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-sl" contenteditable="false">০২</td>
-                  <td class="col-subj" contenteditable="false">মামলার পক্ষদ্বয়ঃ</td>
-                  <td class="col-info" style="padding: 0;">
-                    <table class="sub-table">
-                      <tr>
-                        <td style="width: 50%; border-right: 1px solid #000;" contenteditable="false">১ম পক্ষ</td>
-                        <td style="width: 50%;" contenteditable="false">২য় পক্ষ</td>
-                      </tr>
-                      <tr>
-                        <td style="border-right: 1px solid #000; height: 35px;" contenteditable="false">
-                        </td>
-                        <td style="height: 35px;" contenteditable="false">
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                  <td class="action-cell">
-                    <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-sl" contenteditable="false">০৩</td>
-                  <td class="col-subj" contenteditable="false">তদন্তকালে উপস্থিত গণ্যমান্য ব্যক্তগণের নাম-</td>
-                  <td class="col-info" style="height: 40px;" contenteditable="false">
-                  </td>
-                  <td class="action-cell">
-                    <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-sl" contenteditable="false">০৪</td>
-                  <td class="col-subj" contenteditable="false">তফসিল</td>
-                  <td class="col-info" style="padding: 0;">
-                    <table class="sub-table" style="text-align: center; font-size: 11px;">
-                      <tr>
-                        <td style="border-right: 1px solid #000;">মৌজার নাম</td>
-                        <td style="border-right: 1px solid #000;">খতিয়ান নং (বিআরএস)</td>
-                        <td style="border-right: 1px solid #000;">দাগ নং- (বিআরএস)</td>
-                        <td style="border-right: 1px solid #000;">শ্রেণী</td>
-                        <td>জমির পরিমাণ (একড়)</td>
-                      </tr>
-                      <tr>
-                        <td style="border-right: 1px solid #000; height: 30px;" contenteditable="false">
-                        </td>
-                        <td style="border-right: 1px solid #000;" contenteditable="false">
-                        </td>
-                        <td style="border-right: 1px solid #000;" contenteditable="false">
-                        </td>
-                        <td style="border-right: 1px solid #000;" contenteditable="false">
-                        </td>
-                        <td contenteditable="false">
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="border-right: 1px solid #000; height: 30px;" contenteditable="false">
-                        </td>
-                        <td style="border-right: 1px solid #000;" contenteditable="false">
-                        </td>
-                        <td style="border-right: 1px solid #000;" contenteditable="false">
-                        </td>
-                        <td style="border-right: 1px solid #000;" contenteditable="false">
-                        </td>
-                        <td contenteditable="false">
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                  <td class="action-cell">
-                    <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-sl" contenteditable="false">০৫</td>
-                  <td class="col-subj" contenteditable="false">রেকর্ডীয় মালিকানা</td>
-                  <td class="col-info" contenteditable="false">
-                  </td>
-                  <td class="action-cell">
-                    <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-sl" contenteditable="false">০৬</td>
-                  <td class="col-subj" contenteditable="false">বর্তমান দখলদার</td>
-                  <td class="col-info" contenteditable="false">
-                  </td>
-                  <td class="action-cell">
-                    <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-sl" contenteditable="false">০৭</td>
-                  <td class="col-subj" contenteditable="false">কতদিন যাবদ দখল</td>
-                  <td class="col-info" contenteditable="false">
-                  </td>
-                  <td class="action-cell">
-                    <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-sl" contenteditable="false">০৮</td>
-                  <td class="col-subj" contenteditable="false">কি মূলে দখল (বিবরণ)</td>
-                  <td class="col-info" contenteditable="false">
-                  </td>
-                  <td class="action-cell">
-                    <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-sl" contenteditable="false">০৯</td>
-                  <td class="col-subj" contenteditable="false">নালিশী ভূমি প্রকৃতি</td>
-                  <td class="col-info" contenteditable="false">
-                  </td>
-                  <td class="action-cell">
-                    <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-sl" contenteditable="false">১০</td>
-                  <td class="col-subj" contenteditable="false">স্থাপন/ফসলী বিবরণ</td>
-                  <td class="col-info" contenteditable="false">
-                  </td>
-                  <td class="action-cell">
-                    <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-sl" contenteditable="false">১১</td>
-                  <td class="col-subj" contenteditable="false">সরকারী স্বার্থ</td>
-                  <td class="col-info" contenteditable="false">
-                  </td>
-                  <td class="action-cell">
-                    <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-sl" contenteditable="false">১২</td>
-                  <td class="col-subj" contenteditable="false">শান্তি শৃঙ্খলা ভঙ্গ/অবনতির আশঙ্কা</td>
-                  <td class="col-info" contenteditable="false">
-                  </td>
-                  <td class="action-cell">
-                    <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-sl" contenteditable="false">১৩</td>
-                  <td class="col-subj" contenteditable="false">স্কেচম্যাপ</td>
-                  <td class="col-info" contenteditable="false">
-                  </td>
-                  <td class="action-cell">
-                    <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-sl" contenteditable="false">১৪</td>
-                  <td class="col-subj" contenteditable="false">চৌহদ্দি</td>
-                  <td class="col-info" contenteditable="false">
-                  </td>
-                  <td class="action-cell">
-                    <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <button class="add-row-btn" onclick="addRow()">＋ নতুন সারি যোগ করুন</button>
-            <div class="footer-note" contenteditable="false">
-              মহোদয়ের সদয় অবগতি ও পরবর্তী প্রয়োজনীয় ব্যবস্থা গ্রহণের জন্য অত্র প্রতিবেদন করা হলো।
-            </div>
-            <div class="enclosure">
-              সংযুক্তিঃ বর্ণনা মতে......... <span contenteditable="false">ফর্দ।</span>
-            </div>
+            <button class="reset-btn" onclick="resetData()">🔄 রিসেট</button>
+            <button onclick="window.print()">🖨️ প্রিন্ট / ডাউনলোড</button>
           </div>
-          <div class="signature-area">
-            <div class="left-sign" contenteditable="false">
-              সহকারী কমিশনার (ভূমি)<br>
-              নকলা, শেরপুর।
+          <div class="modal-overlay" id="passwordModal">
+            <div class="modal-box">
+              <h4>অ্যাডমিন পাসওয়ার্ড দিন</h4>
+              <input type="password" id="adminPasswordInput" placeholder="পাসওয়ার্ড দিন">
+                <br>
+                  <button class="btn-submit" onclick="verifyPassword()">প্রবেশ করুন</button>
+                  <button class="btn-cancel" onclick="closePasswordModal()">বাতিল</button>
+                </div>
+              </div>
+              <div class="container" id="report-container">
+                <div>
+                  <div class="top-header">
+                    <p>
+                      <span contenteditable="false">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span>
+                    </p>
+                    <p>
+                      <span contenteditable="false">রাণী শিমুল ইউনিয়ন ভূমি অফিস</span>
+                    </p>
+                    <p>
+                      <span contenteditable="false">নকলা, শেরপুর।</span>
+                    </p>
+                  </div>
+                  <div class="memo-date">
+                    <div>স্মারক নং- <span contenteditable="false">০৩</span>
+                  </div>
+                  <div>তারিখঃ <span contenteditable="false">২৮/০১/২০২৬ খ্রি.</span>
+                </div>
+              </div>
+              <div class="subject-line">
+                বিষয়ঃ <span contenteditable="false">ফৌজদারী কার্যবিধির ১৪৪ ধারা মোতাবেক তদন্ত প্রতিবেদন।</span>
+              </div>
+              <div class="ref-line">
+                সূত্রঃ <span contenteditable="false">মহোদয় কার্যালয়ের বিগত ২২/০১/২০২৬ খ্রি. তারিখে ৩১.৪৫.৮৯৬৭.০০০.৫০.০০০.২৫-৪৯ নং স্মারক।</span>
+              </div>
+              <div class="intro-text" contenteditable="false">
+                উপযুক্ত বিষয় ও সূত্রের আলোকে মহোদয়ের সদয় অবগতির জন্য জানানো যাচ্ছে যে, চাহিত মোকদ্দমার তদন্ত প্রতিবেদন এক নজরে ছকে উপস্থাপিত করা হলোঃ
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th class="col-sl">ক্র. নং</th>
+                    <th class="col-subj">বিষয়বস্তু</th>
+                    <th class="col-info">তথ্য উপাত্ত</th>
+                    <th class="action-cell">অ্যাকশন</th>
+                  </tr>
+                </thead>
+                <tbody id="report-tbody">
+                  <tr>
+                    <td class="col-sl" contenteditable="false">০১</td>
+                    <td class="col-subj" contenteditable="false">মামলা নং-</td>
+                    <td class="col-info" style="padding: 6px 8px !important;" contenteditable="false">১০/২৬ পিটিশন মোকদ্দমা</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-sl" contenteditable="false">০২</td>
+                    <td class="col-subj" contenteditable="false">মামলার পক্ষদ্বয়ঃ</td>
+                    <td class="col-info">
+                      <table class="sub-table">
+                        <tr>
+                          <td style="width: 50%;" contenteditable="false">১ম পক্ষ</td>
+                          <td style="width: 50%; border-right:none;" contenteditable="false">২য় পক্ষ</td>
+                        </tr>
+                        <tr>
+                          <td contenteditable="false">
+                          </td>
+                          <td style="border-right:none;" contenteditable="false">
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-sl" contenteditable="false">০৩</td>
+                    <td class="col-subj" contenteditable="false">তদন্তকালে উপস্থিত গণ্যমান্য ব্যক্তগণের নাম-</td>
+                    <td class="col-info" style="padding: 6px 8px !important;" contenteditable="false">
+                    </td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-sl" contenteditable="false">০৪</td>
+                    <td class="col-subj" contenteditable="false">তফসিল</td>
+                    <td class="col-info">
+                      <table class="sub-table" id="tapsil-table">
+                        <tr>
+                          <th style="width: 23%;">মৌজার নাম</th>
+                          <th style="width: 20%;">খতিয়ান নং</th>
+                          <th style="width: 20%;">দাগ নং</th>
+                          <th style="width: 15%;">শ্রেণী</th>
+                          <th style="width: 22%;">পরিমাণ (একড়)</th>
+                          <th class="tapsil-action-col">×</th>
+                        </tr>
+                        <tr>
+                          <td contenteditable="false">
+                          </td>
+                          <td contenteditable="false">
+                          </td>
+                          <td contenteditable="false">
+                          </td>
+                          <td contenteditable="false">
+                          </td>
+                          <td style="border-right:none;" contenteditable="false">
+                          </td>
+                          <td class="tapsil-action-col">
+                            <button class="del-btn" onclick="deleteTapsilRow(this)">×</button>
+                          </td>
+                        </tr>
+                      </table>
+                      <button class="add-tapsil-btn" onclick="addTapsilRow()">➕ তফসিল সারি যোগ করুন</button>
+                    </td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-sl" contenteditable="false">০৫</td>
+                    <td class="col-subj" contenteditable="false">রেকর্ডীয় মালিকানা</td>
+                    <td class="col-info" style="padding: 6px 8px !important;" contenteditable="false">
+                    </td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-sl" contenteditable="false">০৬</td>
+                    <td class="col-subj" contenteditable="false">বর্তমান দখলদার</td>
+                    <td class="col-info" style="padding: 6px 8px !important;" contenteditable="false">
+                    </td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-sl" contenteditable="false">০৭</td>
+                    <td class="col-subj" contenteditable="false">কতদিন যাবদ দখল</td>
+                    <td class="col-info" style="padding: 6px 8px !important;" contenteditable="false">
+                    </td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-sl" contenteditable="false">০৮</td>
+                    <td class="col-subj" contenteditable="false">কি মূলে দখল (বিবরণ)</td>
+                    <td class="col-info" style="padding: 6px 8px !important;" contenteditable="false">
+                    </td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-sl" contenteditable="false">০৯</td>
+                    <td class="col-subj" contenteditable="false">নালিশী ভূমি প্রকৃতি</td>
+                    <td class="col-info" style="padding: 6px 8px !important;" contenteditable="false">
+                    </td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-sl" contenteditable="false">১০</td>
+                    <td class="col-subj" contenteditable="false">স্থাপন/ফসলী বিবরণ</td>
+                    <td class="col-info" style="padding: 6px 8px !important;" contenteditable="false">
+                    </td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-sl" contenteditable="false">১১</td>
+                    <td class="col-subj" contenteditable="false">সরকারী স্বার্থ</td>
+                    <td class="col-info" style="padding: 6px 8px !important;" contenteditable="false">
+                    </td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-sl" contenteditable="false">১২</td>
+                    <td class="col-subj" contenteditable="false">শান্তি শৃঙ্খলা ভঙ্গ/অবনতির আশঙ্কা</td>
+                    <td class="col-info" style="padding: 6px 8px !important;" contenteditable="false">
+                    </td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-sl" contenteditable="false">১৩</td>
+                    <td class="col-subj" contenteditable="false">স্কেচম্যাপ</td>
+                    <td class="col-info" style="padding: 6px 8px !important;" contenteditable="false">
+                    </td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-sl" contenteditable="false">১৪</td>
+                    <td class="col-subj" contenteditable="false">চৌহদ্দি</td>
+                    <td class="col-info" style="padding: 6px 8px !important;" contenteditable="false">
+                    </td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <button class="add-row-btn" onclick="addRow()">＋ মূল সারি যোগ করুন</button>
+              <div class="footer-note" contenteditable="false">
+                মহোদয়ের সদয় অবগতি ও পরবর্তী প্রয়োজনীয় ব্যবস্থা গ্রহণের জন্য অত্র প্রতিবেদন করা হলো।
+              </div>
+              <div class="enclosure">
+                সংযুক্তিঃ বর্ণনা মতে......... <span contenteditable="false">ফর্দ।</span>
+              </div>
             </div>
-            <div class="right-sign" contenteditable="false">
-              <b>(মোঃ মাইজুল হক)</b>
-              <br>
-                ভূমি সহকারী কর্মকর্তা<br>
-                উরফা ইউনিয়ন ভূমি অফিস<br>
+            <div class="signature-area">
+              <div class="left-sign" contenteditable="false">
+                সহকারী কমিশনার (ভূমি)<br>
                 নকলা, শেরপুর।
               </div>
+              <div class="right-sign" contenteditable="false">
+                <b>(মোঃ মাইজুল হক)</b>
+                <br>
+                  ভূমি সহকারী কর্মকর্তা<br>
+                  উরফা ইউনিয়ন ভূমি অফিস<br>
+                  নকলা, শেরপুর।
+                </div>
+              </div>
             </div>
-          </div>
-          <script>
+            <script>
+    const STORAGE_KEY = 'landReport_v7_fixed';
+
     function loadSavedData() {
-        let savedHTML = localStorage.getItem('landReport_v2');
+        let savedHTML = localStorage.getItem(STORAGE_KEY);
         if (savedHTML) {
             document.getElementById('report-container').innerHTML = savedHTML;
         }
+
+        let savedFont = localStorage.getItem('report_selected_font');
+        if (savedFont) {
+            let isEditMode = document.body.classList.contains('edit-mode');
+            document.body.className = savedFont;
+            if (isEditMode) {
+                document.body.classList.add('edit-mode');
+            }
+            let selector = document.getElementById('fontSelector');
+            if (selector) selector.value = savedFont;
+        }
+    }
+
+    function changeGlobalFont(fontClass) {
+        let isEditMode = document.body.classList.contains('edit-mode');
+        
+        document.body.classList.remove('font-solaiman', 'font-nikosh', 'font-kalpurush', 'font-siyam', 'font-anek', 'font-SolaimanLipiClassic');
+        document.body.classList.add(fontClass);
+
+        if (isEditMode) {
+            document.body.classList.add('edit-mode');
+        }
+        
+        localStorage.setItem('report_selected_font', fontClass);
     }
 
     function openPasswordModal() {
@@ -510,7 +600,7 @@
         newRow.innerHTML = `
             <td class="col-sl" contenteditable="true">-</td>
             <td class="col-subj" contenteditable="true">বিষয়ের নাম</td>
-            <td class="col-info" contenteditable="true">তথ্য দিন</td>
+            <td class="col-info" style="padding: 6px 8px !important;" contenteditable="true">তথ্য দিন</td>
             <td class="action-cell"><button class="del-btn" onclick="deleteRow(this)">ডিলিট</button></td>
         `;
         tbody.appendChild(newRow);
@@ -521,19 +611,49 @@
         row.remove();
     }
 
+    function addTapsilRow() {
+        let tapsilTable = document.getElementById('tapsil-table');
+        let newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td style="border-right:none;" contenteditable="true"></td>
+            <td class="tapsil-action-col"><button class="del-btn" onclick="deleteTapsilRow(this)">×</button></td>
+        `;
+        tapsilTable.appendChild(newRow);
+    }
+
+    function deleteTapsilRow(btn) {
+        let row = btn.closest('tr');
+        row.remove();
+    }
+
     function saveChanges() {
         let container = document.getElementById('report-container');
         let editables = container.querySelectorAll('span, td, .intro-text, .subject-line, .ref-line, .footer-note, .enclosure, .left-sign, .right-sign');
         editables.forEach(el => el.setAttribute('contenteditable', 'false'));
 
-        localStorage.setItem('landReport_v2', container.innerHTML);
+        localStorage.setItem(STORAGE_KEY, container.innerHTML);
         
         document.body.classList.remove('edit-mode');
         alert("সফলভাবে সেভ করা হয়েছে!");
         loadSavedData();
     }
 
-    window.onload = loadSavedData;
+    function resetData() {
+        if (confirm("আপনি কি নিশ্চিতভাবে সব ডেটা রিসেট করতে চান? আগের সব পরিবর্তন মুছে মূল রূপে ফিরে যাবে।")) {
+            localStorage.removeItem(STORAGE_KEY);
+            localStorage.removeItem('report_selected_font');
+            location.reload();
+        }
+    }
+
+    window.onload = function() {
+        document.body.classList.remove("edit-mode");
+        loadSavedData();
+    };
 </script>
-        </body>
-      </html>
+          </body>
+        </html>
